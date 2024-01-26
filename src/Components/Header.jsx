@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useMovieContext, useThemeContext } from "../Contexts";
 import Moon from "../assets/icons/moon.svg";
 import Sun from "../assets/icons/sun.svg";
@@ -26,6 +27,8 @@ export default function Header() {
       type: "REMOVE_FROM_CART",
       payload: { id: itemId },
     });
+
+    toast.success(`Removed Successfully`, { position: "bottom-right" });
     // setCartData(state.cartData.filter((item) => item.id !== itemId));
   };
 
