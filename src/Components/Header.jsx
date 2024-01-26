@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMovieContext } from "../Contexts";
 import Sun from "../assets/icons/sun.svg";
 import Logo from "../assets/logo.svg";
 import Ring from "../assets/ring.svg";
@@ -7,6 +8,7 @@ import CartModal from "./CartModal";
 
 export default function Header() {
   const [showCart, setShowCart] = useState(false);
+  const { cartData, setCartData } = useMovieContext();
 
   const handleShowCart = () => {
     setShowCart(true);
@@ -16,9 +18,19 @@ export default function Header() {
     setShowCart(false);
   };
 
+  const handleRemoveMovie = (itemId) => {
+    setCartData(cartData.filter((item) => item.id !== itemId));
+  };
+
   return (
     <>
-      {showCart && <CartModal onClose={handleCloseCart} />}
+      {showCart && (
+        <CartModal
+          onClose={handleCloseCart}
+          cartData={cartData}
+          onRemove={handleRemoveMovie}
+        />
+      )}
       <header>
         <nav className="container flex items-center justify-between space-x-10 py-6">
           <a href="index.html">
@@ -44,11 +56,16 @@ export default function Header() {
             </li>
             <li>
               <a
-                className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
+                className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block relative"
                 href="#"
                 onClick={handleShowCart}
               >
                 <img src={Cart} width="24" height="24" alt="Cart" />
+                {cartData.length > 0 && (
+                  <p className="absolute top-[-15px] right-[-10px] rounded-full bg-[#00D991] w-6 h-6 text-center font-bold text-sm">
+                    {cartData.length}
+                  </p>
+                )}
               </a>
             </li>
           </ul>

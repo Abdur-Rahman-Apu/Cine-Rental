@@ -1,13 +1,18 @@
+import { useState } from "react";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Main from "./Components/Main/Main";
+import { MovieContext } from "./Contexts";
 
 function App() {
+  const [cartData, setCartData] = useState([]);
   return (
     <>
-      <Header />
-      <Main />
-      <Footer />
+      <MovieContext.Provider value={{ cartData, setCartData }}>
+        <Header />
+        <Main />
+        <Footer />
+      </MovieContext.Provider>
     </>
   );
 }
