@@ -9,7 +9,7 @@ import CartModal from "./CartModal";
 
 export default function Header() {
   const [showCart, setShowCart] = useState(false);
-  const { cartData, setCartData } = useMovieContext();
+  const { state, dispatch } = useMovieContext();
 
   const { darkMode, setDarkMode } = useThemeContext();
 
@@ -22,7 +22,11 @@ export default function Header() {
   };
 
   const handleRemoveMovie = (itemId) => {
-    setCartData(cartData.filter((item) => item.id !== itemId));
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: { id: itemId },
+    });
+    // setCartData(state.cartData.filter((item) => item.id !== itemId));
   };
 
   return (
@@ -30,7 +34,7 @@ export default function Header() {
       {showCart && (
         <CartModal
           onClose={handleCloseCart}
-          cartData={cartData}
+          cartData={state.cartData}
           onRemove={handleRemoveMovie}
         />
       )}
@@ -70,9 +74,9 @@ export default function Header() {
                 onClick={handleShowCart}
               >
                 <img src={Cart} width="24" height="24" alt="Cart" />
-                {cartData.length > 0 && (
+                {state.cartData.length > 0 && (
                   <p className="absolute top-[-15px] right-[-10px] rounded-full bg-[#00D991] w-6 h-6 text-center font-bold text-sm">
-                    {cartData.length}
+                    {state.cartData.length}
                   </p>
                 )}
               </a>

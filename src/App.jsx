@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import Page from "./Components/Page";
 import { MovieContext, ThemeContext } from "./Contexts";
+import { CartReducer, initialState } from "./Reducers/CartReducer";
 
 function App() {
-  const [cartData, setCartData] = useState([]);
+  const [state, dispatch] = useReducer(CartReducer, initialState);
   const [darkMode, setDarkMode] = useState(true);
 
   return (
     <>
       <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
-        <MovieContext.Provider value={{ cartData, setCartData }}>
+        <MovieContext.Provider value={{ state, dispatch }}>
           <Page />
         </MovieContext.Provider>
       </ThemeContext.Provider>
